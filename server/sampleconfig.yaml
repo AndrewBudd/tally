@@ -1,0 +1,7 @@
+modules:
+  nanoleaf:
+    ip: <SET ME>
+    token: <SET ME>
+    offEffect: Starlight
+    videoOnEffect: Jungle
+    micOnEffect: Blaze
