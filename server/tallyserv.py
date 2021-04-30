@@ -12,8 +12,8 @@ with open("config.yaml", 'r') as stream:
         print(exc)
         exit(-1)
 
-if 'modules' in config and 'nanoleaf' in config['modules']:
-  nl = Nanoleaf( config['modules']['nanoleaf']['ip'], config['modules']['nanoleaf']['token'] )  
+if (nlconfig := config.get('modules', {}).get('nanoleaf') is not None):
+  nl = Nanoleaf( nlconfig.get('ip'), nlconfig.get('token') )  
 
 app = Flask(__name__)
 
@@ -25,13 +25,13 @@ def tally():
     piglow.red(150)
     piglow.show()
     if nl is not None:
-      nl.set_effect( config['modules']['nanoleaf']['micOnEffect'] )
+      nl.set_effect( nlconfig.get( 'micOnEffect' ) )
     return "on"
   else:
     piglow.red(0)
     piglow.show()
     if nl is not None:
-      nl.set_effect( config['modules']['nanoleaf']['offEffect'] )
+      nl.set_effect( nlconfig.get( 'offEffect' ) )
     return "off"
 
 if __name__ == '__main__':
