@@ -12,7 +12,7 @@ with open("config.yaml", 'r') as stream:
         print(exc)
         exit(-1)
 
-if modules in config and nanoleaf in config['modules']:
+if 'modules' in config and 'nanoleaf' in config['modules']:
   nl = Nanoleaf( config['modules']['nanoleaf']['ip'], config['modules']['nanoleaf']['token'] )  
 
 app = Flask(__name__)
