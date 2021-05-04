@@ -21,11 +21,17 @@ piglow.clear_on_exit = False
 
 @app.route('/tally',methods=['POST'])
 def tally():
-  if request.form['tally'] == "on":
+  if request.form['tally'] == "Audio":
     piglow.red(150)
     piglow.show()
     if nl is not None:
       nl.set_effect( config['modules']['nanoleaf']['micOnEffect'] )
+    return "audio"
+  elif request.form['tally'] == "Video" or request.form['tally'] == "Muted":
+    piglow.red(0)
+    piglow.show()
+    if nl is not None:
+      nl.set_effect( config['modules']['nanoleaf']['onEffect'] )
     return "on"
   else:
     piglow.red(0)
