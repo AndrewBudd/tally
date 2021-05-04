@@ -1,34 +1,22 @@
 #!/bin/bash
 
-LIGHTON=false
+STATE=false
 while : 
 do
 
-  ISMUTED=$(osascript isZoomMuted.scpt)
+  NEWSTATE=$(osascript zoomStatus.scpt)
 
   if [ $? -eq 0 ]
   then 
-    if [ $ISMUTED = "Unmuted" ]
+    if [ $NEWSTATE != $STATE ]
     then
-      if [ $LIGHTON = false ];
-      then
-        printf "turning the light on\n"
-        curl -X POST -d "tally=on" "http://tally.local:8000/tally"
-        if [ $? -eq 0 ]
-        then 
-          LIGHTON=true
-        fi
+      echo $NEWSTATE
+      curl -X POST -d "tally=$NEWSTATE" "http://tally.local:8000/tally"
+      if [ $? -eq 0 ]
+      then 
+          STATE=$NEWSTATE
       fi
       continue
-    fi
-  fi
-  if [ $LIGHTON = true ];
-  then
-    printf "turning the light off\n"
-    curl -X POST -d "tally=off" "http://tally.local:8000/tally"
-    if [ $? -eq 0 ]
-    then
-      LIGHTON=false
     fi
   fi
   sleep 1
